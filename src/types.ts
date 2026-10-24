@@ -1,4 +1,4 @@
-export type TCategory = 'video' | 'apps' | 'mobile' | 'other';
+export type TCategory = 'video' | 'apps' | 'mobile' | 'learning' | 'other';
 export interface IPayment {
     id: string;
     title: string;

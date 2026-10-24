@@ -1,11 +1,18 @@
 import PaymentForm from "../components/PaymentForm"
 import PaymentItem from "../components/PaymentItem"
 import { formatMoney } from "../format"
+import { usePaymentsStore } from "../store"
 
 export default function PaymentsPage() {
-    const sorted: any[] = [1]
-    const total = 0
-    const paid = 0
+    const items = usePaymentsStore((state) => state.items);
+    const total = items.reduce((sum, item) => sum + item.amount, 0);
+    const paid = items.filter((item) => item.paid).reduce((sum, item) => sum + item.amount, 0);
+
+    const sorted = [...items].sort((a, b) => {
+        const paidDiff = Number(a.paid) - Number(b.paid);
+        if (paidDiff !== 0) return paidDiff;
+        return a.due.localeCompare(b.due)
+    });
 
     return (
         <>
@@ -34,7 +41,7 @@ export default function PaymentsPage() {
             ) : (
                 <ul className="list">
                     {sorted.map((p) => (
-                        <PaymentItem key={p.id} />
+                        <PaymentItem key={p.id} payment={p} />
                     ))}
                 </ul>
             )}
