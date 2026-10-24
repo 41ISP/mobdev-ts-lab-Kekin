@@ -43,7 +43,6 @@ export default function CategoriesPage() {
         );
     }
 
-}
 return (
     <ul className="list">
         {rows.map((r) => (
